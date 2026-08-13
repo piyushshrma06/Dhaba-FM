@@ -21,7 +21,7 @@ html,body{
 /* ---------- BACKGROUND ---------- */
 .bg{
   position:fixed; inset:0;
-  background-image:url('../dhaba-bg.jpg'); /* Updated path */
+  background-image:url('./dhaba-bg.jpg'); /* Updated path */
   background-size:cover;
   background-position:center;
   z-index:-2;
