@@ -1,0 +1,406 @@
+:root{
+  --dhaba-green: #278E4F;
+  --dhaba-green-dark: #17512F;
+  --mustard: #E49B31;
+  --mustard-light: #F4C567;
+  --ember: #E4632E;
+  --dusk: #1B1330;
+  --cream: #F7F2E7;
+  --smoke: rgba(10, 8, 16, 0.55);
+}
+
+*{ box-sizing:border-box; margin:0; padding:0; }
+
+html,body{
+  height:100%;
+  font-family:'Inter', sans-serif;
+  color:var(--cream);
+  overflow:hidden; 
+}
+
+/* ---------- BACKGROUND ---------- */
+.bg{
+  position:fixed; inset:0;
+  background-image:url('../dhaba-bg.jpg'); /* Updated path */
+  background-size:cover;
+  background-position:center;
+  z-index:-2;
+}
+.bg-overlay{
+  position:fixed; inset:0;
+  background:
+    linear-gradient(180deg, rgba(10,8,20,0.55) 0%, rgba(10,8,20,0.15) 22%, rgba(10,8,20,0.25) 60%, rgba(6,5,12,0.8) 100%);
+  z-index:-1;
+}
+
+.glow{
+  position:fixed; left:8%; top:30%; width:40vw; height:40vw;
+  background:radial-gradient(circle, rgba(228,155,49,0.16) 0%, rgba(228,155,49,0) 65%);
+  z-index:-1; pointer-events:none;
+  animation:breathe 5s ease-in-out infinite;
+}
+@keyframes breathe{ 0%,100%{opacity:.6} 50%{opacity:1} }
+
+h1,h2,h3, .headline{ font-family:'Baloo 2', sans-serif; }
+
+/* ---------- TOP HUD ---------- */
+.hud{
+  position:fixed; top:0; left:0; right:0;
+  display:flex; justify-content:space-between; align-items:flex-start;
+  padding: 18px 22px;
+  z-index:20;
+  pointer-events:none;
+}
+.hud > *{ pointer-events:auto; }
+
+.hud-left{ display:flex; flex-direction:column; gap:4px; }
+.brand{
+  font-size:clamp(20px,3vw,28px);
+  font-weight:800;
+  color:var(--mustard-light);
+  letter-spacing:0.5px;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.6);
+}
+.brand .dot{ color:var(--ember); }
+.tagline{
+  font-size:11px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:rgba(247,242,231,0.7);
+  font-weight:500;
+}
+
+.clock-pill{
+  margin-top:6px;
+  display:inline-flex; align-items:baseline; gap:6px;
+  background:rgba(10,8,16,0.45);
+  border:1px solid rgba(228,155,49,0.35);
+  border-radius:8px;
+  padding:6px 12px;
+  backdrop-filter:blur(4px);
+  width:fit-content;
+}
+#clock{
+  font-family:'Rajdhani', sans-serif;
+  font-size:22px; font-weight:700;
+  letter-spacing:1px;
+  color:var(--cream);
+}
+#clock-date{ font-size:10px; color:rgba(247,242,231,0.55); text-transform:uppercase; letter-spacing:1px; }
+
+.hud-right{
+  display:flex; flex-direction:column; align-items:flex-end; gap:8px;
+}
+.safar-counter{
+  display:flex; align-items:center; gap:8px;
+  background:rgba(10,8,16,0.45);
+  border:1px solid rgba(39,142,79,0.5);
+  border-radius:8px;
+  padding:7px 12px;
+  backdrop-filter:blur(4px);
+}
+.live-dot{
+  width:8px; height:8px; border-radius:50%;
+  background:#ff4d4d;
+  box-shadow:0 0 6px #ff4d4d;
+  animation:pulse 1.4s ease-in-out infinite;
+}
+@keyframes pulse{
+  0%,100%{ transform:scale(1); opacity:1; }
+  50%{ transform:scale(1.5); opacity:.55; }
+}
+.safar-text{ font-size:12px; line-height:1.3; text-align:right; }
+.safar-number{ font-family:'Rajdhani', sans-serif; font-weight:700; font-size:16px; color:var(--mustard-light); }
+.safar-label{ font-size:9px; letter-spacing:1.5px; text-transform:uppercase; color:rgba(247,242,231,0.6); }
+
+/* ---------- CB RADIO CHATTER ---------- */
+.cb-panel{
+  position:fixed;
+  right:18px;
+  top:130px;
+  width:200px;
+  z-index:15;
+  display:flex; flex-direction:column; align-items:flex-end;
+  gap:6px;
+  pointer-events:none;
+}
+.cb-heading{
+  font-family:'Rajdhani', sans-serif;
+  font-size:10px; letter-spacing:2px; text-transform:uppercase;
+  color:rgba(228,155,49,0.7);
+  margin-bottom:2px;
+  border-bottom:1px dashed rgba(228,155,49,0.3);
+  padding-bottom:4px;
+  width:100%;
+  text-align:right;
+}
+.cb-msg{
+  font-size:11.5px;
+  color:rgba(247,242,231,0.85);
+  background:rgba(10,8,16,0.4);
+  border-right:2px solid var(--dhaba-green);
+  padding:5px 9px;
+  border-radius:3px;
+  max-width:100%;
+  text-align:right;
+  opacity:0;
+  transform:translateX(6px);
+  animation: cbIn 0.4s ease forwards;
+}
+.cb-msg.fade{ animation: cbOut 0.6s ease forwards; }
+@keyframes cbIn{ to{ opacity:1; transform:translateX(0); } }
+@keyframes cbOut{ to{ opacity:0; transform:translateX(10px); } }
+
+/* ---------- HONK / DIPPER BUTTON ---------- */
+.honk-wrap{
+  position:fixed;
+  right:18px;
+  bottom:180px;
+  z-index:25;
+  display:flex; flex-direction:column; align-items:center; gap:6px;
+}
+.honk-btn{
+  width:64px; height:64px;
+  border-radius:50%;
+  border:3px solid var(--mustard);
+  background: radial-gradient(circle at 35% 30%, #3a2a10, #1a1108 70%);
+  box-shadow:
+    0 0 0 4px rgba(0,0,0,0.35),
+    inset 0 2px 4px rgba(255,255,255,0.15),
+    0 6px 14px rgba(0,0,0,0.5);
+  color:var(--mustard-light);
+  font-size:24px;
+  cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  transition: transform 0.08s ease;
+}
+.honk-btn:active{ transform:scale(0.9); }
+.honk-label{
+  font-size:9px; letter-spacing:1.5px; text-transform:uppercase;
+  color:rgba(247,242,231,0.7);
+  background:rgba(10,8,16,0.4);
+  padding:3px 7px; border-radius:10px;
+}
+
+.horn-wrap{
+  position:fixed;
+  right:18px;
+  bottom:80px;
+  z-index:25;
+  display:flex; flex-direction:column; align-items:center; gap:6px;
+}
+.horn-btn{
+  border-color:var(--ember);
+  color:var(--mustard-light);
+}
+.horn-btn:active{ transform:scale(0.9); }
+
+/* Horn gets its own sharper, ember-colored blast so it reads differently from Dipper's soft flash */
+.horn-flash{
+  position:fixed; inset:0;
+  background:radial-gradient(circle at 92% 88%, rgba(228,99,46,0.45), rgba(228,99,46,0) 50%);
+  opacity:0;
+  pointer-events:none;
+  z-index:24;
+}
+.horn-flash.active{ animation: hornFlash 0.45s ease-out; }
+@keyframes hornFlash{
+  0%{ opacity:0; }
+  10%{ opacity:1; }
+  100%{ opacity:0; }
+}
+.horn-ripple{
+  position:fixed;
+  right:50px; bottom:112px;
+  width:64px; height:64px;
+  border-radius:50%;
+  border:2px solid var(--ember);
+  transform:translate(50%,50%) scale(1);
+  opacity:0;
+  pointer-events:none;
+  z-index:23;
+  box-shadow: 0 0 0 10px rgba(228,99,46,0.25);
+}
+.horn-ripple.active{ animation: hornRipple 0.5s ease-out; }
+@keyframes hornRipple{
+  0%{ opacity:0.9; transform:translate(50%,50%) scale(1); }
+  100%{ opacity:0; transform:translate(50%,50%) scale(4); }
+}
+
+/* Screen-shake, unique to Horn, applied briefly to the whole page */
+body.horn-shake{ animation: hornShake 0.35s ease-in-out; }
+@keyframes hornShake{
+  0%, 100%{ transform:translate(0,0); }
+  20%{ transform:translate(-4px,2px); }
+  40%{ transform:translate(4px,-2px); }
+  60%{ transform:translate(-3px,1px); }
+  80%{ transform:translate(3px,-1px); }
+}
+
+.honk-flash{
+  position:fixed; inset:0;
+  background:radial-gradient(circle at 92% 78%, rgba(228,155,49,0.35), rgba(228,155,49,0) 55%);
+  opacity:0;
+  pointer-events:none;
+  z-index:24;
+}
+.honk-flash.active{ animation: honkFlash 0.6s ease-out; }
+@keyframes honkFlash{
+  0%{ opacity:0; }
+  15%{ opacity:1; }
+  100%{ opacity:0; }
+}
+.honk-ripple{
+  position:fixed;
+  right:50px; bottom:212px;
+  width:64px; height:64px;
+  border-radius:50%;
+  border:2px solid var(--mustard);
+  transform:translate(50%,50%) scale(1);
+  opacity:0;
+  pointer-events:none;
+  z-index:23;
+}
+.honk-ripple.active{ animation: ripple 0.7s ease-out; }
+@keyframes ripple{
+  0%{ opacity:0.8; transform:translate(50%,50%) scale(1); }
+  100%{ opacity:0; transform:translate(50%,50%) scale(3.2); }
+}
+
+/* ---------- PLAYER MODULE: "USTAD'S RADIO" ---------- */
+.player{
+  position:fixed;
+  bottom:16px; left:50%;
+  transform:translateX(-50%);
+  width:min(560px, 92vw);
+  z-index:30;
+  background:
+    linear-gradient(180deg, rgba(23,81,47,0.92), rgba(15,54,32,0.95));
+  border:3px solid var(--mustard);
+  border-radius:16px;
+  padding:14px 18px 12px;
+  box-shadow:
+    0 0 0 1px rgba(228,155,49,0.25),
+    0 10px 30px rgba(0,0,0,0.55),
+    inset 0 1px 0 rgba(255,255,255,0.08);
+}
+
+.player-top{
+  display:flex; justify-content:space-between; align-items:center;
+  margin-bottom:8px;
+}
+.player-brand{
+  font-size:12px; letter-spacing:2px; text-transform:uppercase;
+  color:var(--mustard-light);
+  display:flex; align-items:center; gap:6px;
+}
+.player-brand .bulb{
+  width:6px; height:6px; border-radius:50%;
+  background:var(--mustard-light);
+  box-shadow:0 0 6px var(--mustard-light);
+  animation:pulse 1.8s ease-in-out infinite;
+}
+.station-band{
+  font-size:10px; color:rgba(247,242,231,0.55);
+  font-family:'Rajdhani', sans-serif;
+  letter-spacing:1px;
+}
+
+.lcd{
+  background:rgba(0,0,0,0.35);
+  border:1px solid rgba(228,155,49,0.3);
+  border-radius:6px;
+  padding:7px 10px;
+  margin-bottom:10px;
+  overflow:hidden;
+  white-space:nowrap;
+}
+#track-title{
+  display:inline-block;
+  font-family:'Rajdhani', sans-serif;
+  font-weight:600;
+  font-size:14.5px;
+  color:var(--mustard-light);
+  letter-spacing:0.5px;
+}
+
+.progress-row{
+  display:flex; align-items:center; gap:8px;
+  margin-bottom:10px;
+}
+.time{
+  font-family:'Rajdhani', sans-serif;
+  font-size:11px; color:rgba(247,242,231,0.75);
+  min-width:34px;
+}
+#time-total{ text-align:right; }
+
+input[type="range"]{
+  -webkit-appearance:none;
+  appearance:none;
+  flex:1;
+  height:5px;
+  border-radius:3px;
+  background: linear-gradient(90deg, var(--mustard) 0%, var(--mustard) var(--progress, 0%), rgba(255,255,255,0.18) var(--progress, 0%));
+  outline:none;
+  cursor:pointer;
+}
+input[type="range"]::-webkit-slider-thumb{
+  -webkit-appearance:none;
+  width:14px; height:14px; border-radius:50%;
+  background:var(--cream);
+  border:2px solid var(--mustard);
+  box-shadow:0 0 4px rgba(0,0,0,0.5);
+  cursor:pointer;
+}
+input[type="range"]::-moz-range-thumb{
+  width:14px; height:14px; border-radius:50%;
+  background:var(--cream);
+  border:2px solid var(--mustard);
+  cursor:pointer;
+}
+
+.controls{
+  display:flex; align-items:center; justify-content:center; gap:16px;
+}
+.ctrl-btn{
+  background:var(--dhaba-green);
+  border:2px solid var(--mustard-light);
+  color:var(--cream);
+  border-radius:50%;
+  width:38px; height:38px;
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer;
+  font-size:14px;
+  transition: background 0.15s ease, transform 0.08s ease;
+}
+.ctrl-btn:hover{ background:var(--dhaba-green-dark); }
+.ctrl-btn:active{ transform:scale(0.92); }
+#play-btn{
+  width:50px; height:50px;
+  background:var(--mustard);
+  border-color:var(--cream);
+  color:var(--dusk);
+  font-size:18px;
+}
+#play-btn:hover{ background:var(--mustard-light); }
+
+#yt-player{ position:fixed; top:-9999px; left:-9999px; width:1px; height:1px; overflow:hidden; }
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width:640px){
+  .hud{ padding:12px 14px; }
+  .brand{ font-size:18px; }
+  .cb-panel{ display:none; }
+  .honk-wrap{ right:12px; bottom:230px; }
+  .horn-wrap{ right:12px; bottom:130px; }
+  .honk-btn{ width:52px; height:52px; font-size:20px; }
+  .player{ width:94vw; padding:10px 12px 10px; bottom:10px; }
+  .controls{ gap:12px; }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .glow, .live-dot, .player-brand .bulb, .cb-msg, .honk-flash.active, .honk-ripple.active, .horn-flash.active, .horn-ripple.active, body.horn-shake{
+    animation:none !important;
+  }
+}

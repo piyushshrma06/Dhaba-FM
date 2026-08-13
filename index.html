@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.youtube.com https://www.youtube-nocookie.com https://s.ytimg.com;">
+<meta http-equiv="Content-Security-Policy" content="frame-src 'self' https://www.youtube.com https://www.youtube-nocookie.com;">
+<title>Dhaba FM — Highway Lofi, 24/7</title>
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- External Stylesheet -->
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="bg"></div>
+  <div class="bg-overlay"></div>
+  <div class="glow"></div>
+
+  <!-- ===== TOP HUD ===== -->
+  <div class="hud">
+    <div class="hud-left">
+      <div class="brand">📻 DHABA FM</div>
+      <div class="tagline">Highway Lofi &middot; 24/7</div>
+      <div class="clock-pill">
+        <span id="clock">--:--</span>
+        <span id="clock-date"></span>
+      </div>
+    </div>
+
+    <div class="hud-right">
+      <div class="safar-counter">
+        <span class="live-dot"></span>
+        <div class="safar-text">
+          <div class="safar-number" id="safar-count">1,214</div>
+          <div class="safar-label">Musafir Online</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== CB RADIO CHATTER (visual only) ===== -->
+  <div class="cb-panel" id="cb-panel">
+    <div class="cb-heading">CB Channel 19</div>
+    <!-- messages injected here by JS -->
+  </div>
+
+  <!-- ===== HONK / DIPPER BUTTON ===== -->
+  <div class="honk-ripple" id="honk-ripple"></div>
+  <div class="honk-flash" id="honk-flash"></div>
+  <div class="honk-wrap">
+    <button class="honk-btn" id="honk-btn" aria-label="Sound the horn" title="Sound the horn">🐘</button>
+    <span class="honk-label">Dipper</span>
+  </div>
+
+  <div class="horn-ripple" id="horn-ripple"></div>
+  <div class="horn-flash" id="horn-flash"></div>
+  <div class="horn-wrap">
+    <button class="honk-btn horn-btn" id="horn-btn" aria-label="Sound the lorry horn" title="Sound the lorry horn">📯</button>
+    <span class="honk-label">Horn</span>
+  </div>
+  
+
+  <!-- ===== PLAYER MODULE: USTAD'S RADIO ===== -->
+  <div class="player">
+    <div class="player-top">
+      <div class="player-brand"><span class="bulb"></span> Ustad's Radio</div>
+      <div class="station-band">FM 91.9 &middot; DHABA</div>
+    </div>
+
+    <div class="lcd">
+      <span id="track-title">Tuning in&hellip;</span>
+    </div>
+
+    <div class="progress-row">
+      <span class="time" id="time-current">0:00</span>
+      <input type="range" id="progress-bar" min="0" max="100" value="0">
+      <span class="time" id="time-total">0:00</span>
+    </div>
+
+    <div class="controls">
+      <button class="ctrl-btn" id="prev-btn" aria-label="Previous track" title="Previous">⏮</button>
+      <button class="ctrl-btn" id="play-btn" aria-label="Play or pause" title="Play/Pause">▶</button>
+      <button class="ctrl-btn" id="next-btn" aria-label="Next track" title="Next">⏭</button>
+    </div>
+  </div>
+
+  <!-- YouTube mounts its iframe into this div, kept off-screen -->
+  <div id="yt-player"></div>
+
+  <!-- dipper / dashboard horn sound effect -->
+  <audio id="horn-audio" src="https://assets.mixkit.co/sfx/preview/mixkit-city-traffic-air-horn-1231.mp3" preload="auto"></audio>
+
+  <!-- lorry horn sound effect (uploaded mp3) -->
+  <audio id="lorry-horn-audio" src="horn.mp3" preload="auto"></audio>
+
+  <!-- External JavaScript -->
+  <script src="script.js"></script>
+</body>
+</html>
